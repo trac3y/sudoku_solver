@@ -165,6 +165,8 @@ public class Sudoku {
 	                     // we can when algor_count == 9.
 	int search_count = 0; // Number of consecutive searches without finding anything
 	                      // to change.
+	int box_row = 0;
+	int box_col = 0;
 
 	for(int i = 0; i < 9; i++){
 	    digitCount[i] = 0;
@@ -177,102 +179,141 @@ public class Sudoku {
 	}
 
 
-	while(search_count < 2){
+	while(search_count < 3){
 
-	while(algor_count < 9){
-	    for(int j = 0; j < 9; j++){
-		if(in_col(0, puzzle[0][j], puzzle[1][j], puzzle[2][j],
-			  puzzle[3][j], puzzle[4][j], puzzle[5][j],
-			  puzzle[6][j], puzzle[7][j], puzzle[8][j])){
-		    for(int k = 1; k <= 9; k++){
-			if(!in_col(k, puzzle[0][j], puzzle[1][j], puzzle[2][j],
-				   puzzle[3][j], puzzle[4][j], puzzle[5][j],
-				   puzzle[6][j], puzzle[7][j], puzzle[8][j])){
-			    // identifies numbers not already marked in column
-			    for(int i = 0; i < 9; i++){
-				if(puzzle[i][j].equals("0") && !in_row(k, puzzle[i]) && 
-				   !in_box(k, i, j, puzzle)){
-				    digitCount[i]++;
+	    while(algor_count < 9){
+		for(int j = 0; j < 9; j++){
+		    if(in_col(0, puzzle[0][j], puzzle[1][j], puzzle[2][j],
+			      puzzle[3][j], puzzle[4][j], puzzle[5][j],
+			      puzzle[6][j], puzzle[7][j], puzzle[8][j])){
+			for(int k = 1; k <= 9; k++){
+			    if(!in_col(k, puzzle[0][j], puzzle[1][j], puzzle[2][j],
+				       puzzle[3][j], puzzle[4][j], puzzle[5][j],
+				       puzzle[6][j], puzzle[7][j], puzzle[8][j])){
+				// identifies numbers not already marked in column
+				for(int i = 0; i < 9; i++){
+				    if(puzzle[i][j].equals("0") && !in_row(k, puzzle[i]) && 
+				       !in_box(k, i, j, puzzle)){
+					digitCount[i]++;
+				    }
 				}
-			    }
-			    for(int i = 0; i < 9; i++){
-				if(digitCount[i] == 1){
-				    ones_count++;
-				    marker = i;
+				for(int i = 0; i < 9; i++){
+				    if(digitCount[i] == 1){
+					ones_count++;
+					marker = i;
+				    }
 				}
+				if(ones_count == 1){
+				    puzzle[marker][j] = "" + k;
+				    algor_count = 0;
+				    search_count = 0;
+				}
+				for(int i = 0; i < 9; i++){
+				    digitCount[i] = 0;
+				}
+				ones_count = 0;
 			    }
-			    if(ones_count == 1){
-				puzzle[marker][j] = "" + k;
-				algor_count = 0;
-				search_count = 0;
-			    }
-			    for(int i = 0; i < 9; i++){
-				digitCount[i] = 0;
-			    }			
-			    ones_count = 0;
 			}
 		    }
+		    algor_count++;
 		}
-		algor_count++;
 	    }
-	}
 
-	search_count++;
-	algor_count = 0;
+	    search_count++;
+	    algor_count = 0;
 
-	while(algor_count < 9){
-	    for(int j = 0; j < 9; j++){
-		if(in_row(0, puzzle[j])){
-		    for(int k = 1; k <= 9; k++){
-			if(!in_row(k, puzzle[j])){
-			    // identifies numbers not already marked in row
-			    for(int i = 0; i < 9; i++){
-				if(puzzle[j][i].equals("0") && 
-				   !in_col(k, puzzle[0][i], puzzle[1][i], puzzle[2][i],
-					   puzzle[3][i], puzzle[4][i], puzzle[5][i],
-					   puzzle[6][i], puzzle[7][i], puzzle[8][i]) &&
-				   !in_box( k, j, i, puzzle)){
-				    digitCount[i]++;
+	    while(algor_count < 9){
+		for(int j = 0; j < 9; j++){
+		    if(in_row(0, puzzle[j])){
+			for(int k = 1; k <= 9; k++){
+			    if(!in_row(k, puzzle[j])){
+				// identifies numbers not already marked in row
+				for(int i = 0; i < 9; i++){
+				    if(puzzle[j][i].equals("0") && 
+				       !in_col(k, puzzle[0][i], puzzle[1][i], puzzle[2][i],
+					       puzzle[3][i], puzzle[4][i], puzzle[5][i],
+					       puzzle[6][i], puzzle[7][i], puzzle[8][i]) &&
+				       !in_box( k, j, i, puzzle)){
+					digitCount[i]++;
+				    }
 				}
-			    }
-			    for(int i = 0; i < 9; i++){
-				if(digitCount[i] == 1){
-				    ones_count++;
-				    marker = i;
+				for(int i = 0; i < 9; i++){
+				    if(digitCount[i] == 1){
+					ones_count++;
+					marker = i;
+				    }
 				}
+				if(ones_count == 1){
+				    puzzle[j][marker] = "" + k;
+				    algor_count = 0;
+				    search_count = 0;
+				}
+				for(int i = 0; i < 9; i++){
+				    digitCount[i] = 0;
+				}
+				ones_count = 0;
 			    }
-			    if(ones_count == 1){
-				puzzle[j][marker] = "" + k;
-				algor_count = 0;
-				search_count = 0;
-			    }
-			    for(int i = 0; i < 9; i++){
-				digitCount[i] = 0;
-			    }
-			    ones_count = 0;
 			}
 		    }
+		    algor_count++;
 		}
-		algor_count++;
 	    }
-	}
-	search_count++;
+	    search_count++;
+	    algor_count = 0;
 
+	    while(algor_count < 9){
+		for(int j = 0; j < 3; j++){
+		    for(int n = 0; n < 3; n++){
+			if(in_box(0, 3*j, 3*n, puzzle)){
+			    for(int k = 1; k <= 9; k++){
+				if(!in_box(k, 3*j, 3*n, puzzle)){
+				    // identifies numbers not already marked in box
+				    for(int r = 0; r < 3; r++){
+					for(int s = 0; s < 3; s++){
+					    if(puzzle[3*j + r][3*n + s].equals("0") &&
+					       !in_row(k, puzzle[3*j + r]) &&
+					       !in_col(k, puzzle[0][3*n+s], puzzle[1][3*n+s],
+						       puzzle[2][3*n+s], puzzle[3][3*n+s],
+						       puzzle[4][3*n+s], puzzle[5][3*n+s],
+						       puzzle[6][3*n+s], puzzle[7][3*n+s],
+						       puzzle[8][3*n+s])){
+						digitCount[3 * r + s]++;
+					    }
+					}
+				    }
+				    for(int i = 0; i < 9; i++){
+					if(digitCount[i] == 1){
+					    ones_count++;
+					    marker = i;
+					}
+				    }
+				    if(ones_count == 1){
+					box_row = marker / 3;
+					box_col = marker % 3;
+					puzzle[3*j + box_row][3*n + box_col] = "" + k;
+					algor_count = 0;
+					search_count = 0;
+					box_row = 0;
+					box_col = 0;
+				    }
+				    for(int i = 0; i < 9; i++){
+					digitCount[i] = 0;
+				    }
+				    ones_count = 0;
+				}
+			    }
+			}
+			algor_count++;
+		    }
+		}
+	    }
+	    search_count++;
+	    algor_count = 0;
 	}
-
     }
-    
-
 
 
     public static void main(String args[]) {
-
-	/*
-	set_nines();
-	for(int i = 0; i < 362880; i++){
-	    System.out.println(nines[i]);
-	}
-	*/
 
 	int[][] test = { 
 	    { 9, 7, 8, 1, 0, 6, 3, 4, 5},
@@ -285,21 +326,9 @@ public class Sudoku {
 	    { 3, 1, 0, 7, 0, 0, 0, 0, 0},
 	    { 4, 6, 2, 9, 0, 5, 8, 7, 3}
 	};
-	/*
-	solve(test);
-	for(int i = 0; i < 9; i++){
-	    for(int j = 0; j < 9; j++){
-		System.out.print(puzzle[i][j] + " ");
-		if(((j + 1) % 3) == 0){
-		    System.out.print(" ");
-		}
-	    }
-	    System.out.print("\n");
-	    if(((i + 1) % 3) == 0){
-		System.out.print("\n");
-	    }
-	}
-	*/
+	//solve(test);
+	
+	
 	int[][] diabolical = {
 	    { 4, 0, 0, 0, 3, 0, 9, 0, 7},
 	    { 0, 0, 0, 0, 9, 1, 0, 2, 0},
@@ -311,24 +340,9 @@ public class Sudoku {
 	    { 0, 8, 0, 9, 2, 0, 0, 0, 0},
 	    { 7, 0, 3, 0, 5, 0, 0, 0, 8}
 	};	
-	/*
-	solve(diabolical);
-	for(int i = 0; i < 9; i++){
-	    for(int j = 0; j < 9; j++){
-		System.out.print(puzzle[i][j] + " ");
-		if(((j + 1) % 3) == 0){
-		    System.out.print(" ");
-		}
-	    }
-	    System.out.print("\n");
-	    if(((i + 1) % 3) == 0){
-		System.out.print("\n");
-	    }
-	}
-	*/
+	//solve(diabolical);	
 
-	/*
-	int[][] easy = {
+	int[][] gentle = {
 	    { 0, 0, 4, 0, 5, 0, 0, 7, 1},
 	    { 5, 0, 7, 0, 0, 0, 8, 0, 0},
 	    { 2, 8, 9, 1, 0, 0, 0, 0, 0},
@@ -339,7 +353,7 @@ public class Sudoku {
 	    { 0, 0, 6, 0, 0, 0, 5, 0, 8},
 	    { 4, 2, 0, 0, 1, 0, 3, 0, 0}
 	};
-	*/
+	//solve(gentle);
 
 	int[][] easy = {
 	    { 3, 0, 2, 8, 0, 0, 0, 0, 9},
@@ -352,8 +366,80 @@ public class Sudoku {
 	    { 0, 0, 7, 4, 1, 0, 0, 0, 0},
 	    { 5, 0, 0, 0, 0, 2, 9, 0, 6}
 	};
+	//solve(easy);
 
-	solve(easy);
+	int[][] test_A = {
+	    { 9, 1, 0, 0, 6, 0, 0, 8, 7},
+	    { 8, 4, 3, 0, 5, 0, 1, 2, 6},
+	    { 0, 0, 5, 0, 0, 0, 4, 0, 0},
+	    { 0, 9, 0, 0, 1, 0, 0, 5, 0},
+	    { 2, 6, 0, 0, 3, 0, 0, 4, 8},
+	    { 5, 0, 0, 2, 9, 4, 0, 0, 1},
+	    { 7, 2, 0, 6, 4, 1, 0, 3, 5},
+	    { 3, 0, 0, 5, 7, 9, 0, 0, 4},
+	    { 1, 5, 4, 3, 2, 8, 6, 7, 9}
+	};
+	// "gentle"
+	//solve(test_A);
+
+	int[][] test_B = {
+	    { 0, 0, 0, 4, 9, 0, 0, 0, 6},
+	    { 0, 4, 7, 3, 0, 1, 8, 9, 0},
+	    { 6, 0, 0, 7, 0, 0, 0, 0, 0},
+	    { 4, 0, 5, 0, 0, 0, 1, 0, 0},
+	    { 3, 9, 8, 6, 1, 4, 2, 5, 7},
+	    { 7, 0, 2, 0, 0, 0, 6, 0, 0},
+	    { 2, 0, 0, 9, 0, 0, 0, 0, 0},
+	    { 0, 8, 6, 1, 0, 3, 4, 2, 0},
+	    { 0, 0, 0, 2, 4, 0, 0, 0, 8}
+	};
+	// "moderate"
+	//solve(test_B);
+
+	int[][] test_C = {
+	    { 0, 0, 0, 2, 0, 0, 0, 6, 3},
+	    { 3, 0, 0, 0, 0, 5, 4, 0, 1},
+	    { 0, 0, 1, 0, 0, 3, 9, 8, 0},
+	    { 0, 0, 0, 0, 0, 0, 0, 9, 0},
+	    { 0, 0, 0, 5, 3, 8, 0, 0, 0},
+	    { 0, 3, 0, 0, 0, 0, 0, 0, 0},
+	    { 0, 2, 6, 3, 0, 0, 5, 0, 0},
+	    { 5, 0, 3, 7, 0, 0, 0, 0, 8},
+	    { 4, 7, 0, 0, 0, 1, 0, 0, 0}
+	};
+	// "hard"
+	//solve(test_C);
+
+	int[][] test_D = {
+	    { 5, 7, 0, 8, 4, 0, 0, 0, 0},
+	    { 0, 9, 0, 7, 0, 0, 0, 2, 0},
+	    { 0, 0, 2, 0, 6, 0, 8, 5, 0},
+	    { 0, 1, 0, 0, 0, 0, 0, 0, 6},
+	    { 0, 0, 0, 0, 0, 0, 0, 0, 0},
+	    { 9, 0, 0, 0, 0, 0, 0, 7, 0},
+	    { 0, 2, 3, 0, 8, 0, 1, 0, 0},
+	    { 0, 4, 0, 0, 0, 9, 0, 8, 0},
+	    { 0, 6, 0, 0, 3, 5, 0, 4, 2}
+	};
+	// "gentle"
+	//solve(test_D);
+
+	int[][] test_E = {
+	    { 0, 8, 0, 0, 0, 7, 2, 0, 0},
+	    { 9, 0, 0, 0, 0, 5, 0, 0, 8},
+	    { 0, 2, 6, 0, 8, 0, 0, 0, 0},
+	    { 0, 7, 0, 8, 9, 0, 1, 3, 0},
+	    { 8, 0, 0, 0, 5, 0, 0, 0, 2},
+	    { 0, 6, 3, 0, 2, 4, 0, 7, 0},
+	    { 0, 0, 0, 0, 1, 0, 3, 2, 0},
+	    { 3, 0, 0, 6, 0, 0, 0, 0, 1},
+	    { 0, 0, 7, 3, 0, 0, 0, 8, 0}
+	};
+	// "moderate"
+	solve(test_E);
+
+	// ENTER YOUR SUDOKU HERE
+
 	for(int i = 0; i < 9; i++){
 	    for(int j = 0; j < 9; j++){
 		System.out.print(puzzle[i][j] + " ");
@@ -366,7 +452,6 @@ public class Sudoku {
 		System.out.print("\n");
 	    }
 	}
-
     }
 
 }
