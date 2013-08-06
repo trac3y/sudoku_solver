@@ -595,7 +595,7 @@ public class Sudoku {
 	boolean valid_puzzle = true;
 	boolean good_sir = true;
 
-	//while(update < 81 || complete(puzzle)){
+	while(update < 81 || !complete(puzzle)){
 	/*
 	    for(int i = 0; i < 9; i++){
 		potentials[i] = 0;
@@ -704,7 +704,7 @@ public class Sudoku {
 		    }
 		}
 	    }
-	    //}
+	}
 
     }
 
@@ -738,7 +738,7 @@ public class Sudoku {
 	    { 7, 0, 3, 0, 5, 0, 0, 0, 8}
 	};	
 	//fill_in(diabolical);
-	//solve(diabolical);
+	solve(diabolical);
 
 	int[][] gentle = {
 	    { 0, 0, 4, 0, 5, 0, 0, 7, 1},
@@ -849,7 +849,7 @@ public class Sudoku {
 	    { 1, 0, 0, 0, 9, 4, 0, 2, 5}
 	};
 	//fill_in(test_G);
-	solve(test_G);
+	//solve(test_G);
 
 	/*
 	choices();	
