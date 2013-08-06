@@ -738,7 +738,7 @@ public class Sudoku {
 	    { 7, 0, 3, 0, 5, 0, 0, 0, 8}
 	};	
 	//fill_in(diabolical);
-	solve(diabolical);
+	//solve(diabolical);
 
 	int[][] gentle = {
 	    { 0, 0, 4, 0, 5, 0, 0, 7, 1},
@@ -880,7 +880,7 @@ public class Sudoku {
 	    { 0, 0, 0, 1, 3, 9, 0, 0, 8}
 	};
 	// "super-hard"
-	//solve(test_H);
+	solve(test_H);
 
 	// ENTER YOUR SUDOKU HERE
 
