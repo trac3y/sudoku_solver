@@ -4,6 +4,7 @@ public class Sudoku {
 
     public static int[] digitCount = new int[9];
     public static String[][] puzzle = new String[9][9];
+    public static int[][][] entries = new int[9][9][9];
 
     public static String[] twos = new String[2];
     public static String[] threes = new String[6];
@@ -354,7 +355,20 @@ public class Sudoku {
 	return ans;
     }
 
+    public static boolean puzzle_possible(){
+	boolean ans = true;
+	A: for(int i = 0; i < 9; i++){
+	    for(int j = 0; j < 9; j++){
+		if(!possible(i, j)){
+		    ans = false;
+		    break A;
+		}
+	    }
+	}
+	return ans;
+    } // Finds out if the entire puzzle is possible
 
+    /*
     public static void solve(int[][] givens){
 	int[] potentials = new int[9];
 	int pass_one = 0; // If there are two values alone that could be in the spot
@@ -538,6 +552,163 @@ public class Sudoku {
 	}
 	}
     }
+    */
+
+    public static void choices(){
+	int marker = 0;
+	for(int i = 0; i < 9; i++){
+	    for(int j = 0; j < 9; j++){
+		for(int k = 0; k < 9; k++){
+		    entries[i][j][k] = 0;
+		}
+	    }
+	}
+	for(int i = 0; i < 9; i++){
+	    for(int j = 0; j < 9; j++){
+		marker = 0;
+		for(int k = 1; k <= 9; k++){
+		    if(!in_row(k, puzzle[i]) &&
+		       !in_col(k, puzzle[0][j], puzzle[1][j], puzzle[2][j],
+			       puzzle[3][j], puzzle[4][j], puzzle[5][j],
+			       puzzle[6][j], puzzle[7][j], puzzle[8][j]) &&
+		       !in_box(k, i, j, puzzle) &&
+		       puzzle[i][j].equals("0")){
+			entries[i][j][marker] = k;
+			marker++;
+		    }
+		}
+	    }
+	}
+    }
+
+    public static void solve(int[][] givens){
+	int[] potentials = new int[9];
+	int pass_one = 0; // If there are two values alone that could be in the spot
+	int pass_two = 0;
+	int permit = 0; // Number of valid numbers in a single box based on fill_in checks
+
+	int counter = 0;
+	int update = 0;
+
+	String[][] decoy = new String[9][9]; // A test array that mimics puzzle[][]
+	int[][] puzzleInt = new int[9][9];
+	boolean valid_puzzle = true;
+	boolean good_sir = true;
+
+	//while(update < 81 || complete(puzzle)){
+	/*
+	    for(int i = 0; i < 9; i++){
+		potentials[i] = 0;
+	    }
+	*/
+	    fill_in(givens);
+
+	    for(int i = 0; i < 9; i++){
+		for(int j = 0; j < 9; j++){
+		    decoy[i][j] = puzzle[i][j]; // Copies puzzle[][] to decoy[][]
+		}
+	    }
+
+	    if(!complete(puzzle)){ // if the puzzle still isn't finished
+		//choices();
+		// Might be more efficient to place choices() HERE HERE HERE
+		for(int i = 0; i < 9; i++){
+		    for(int j = 0; j < 9; j++){
+			choices();
+			counter = 0;
+			//pass_one = 0;
+			//pass_two = 0;
+			for(int k = 0; k < 9; k++){
+			    if(entries[i][j][k] != 0){
+				counter++;
+			    }
+			    else{
+				break;
+			    }
+			}
+			if(counter == 2){
+			    puzzle[i][j] = entries[i][j][0] + "";
+			    for(int aa = 0; aa < 9; aa++){
+				for(int bb = 0; bb < 9; bb++){
+				    puzzleInt[aa][bb] = Integer.parseInt(puzzle[aa][bb]);
+				}
+			    }
+			    fill_in(puzzleInt);
+
+			    if(complete(puzzle)){
+				return;
+			    }
+			    if(!complete(puzzle)){
+				if(!puzzle_possible()){
+				    decoy[i][j] = entries[i][j][1] + "";
+				    update = 0;
+				    for(int aa = 0; aa < 9; aa++){
+					for(int bb = 0; bb < 9; bb++){
+					    puzzle[aa][bb] = decoy[aa][bb];
+					}
+				    }
+				    for(int aa = 0; aa < 9; aa++){
+					for(int bb = 0; bb < 9; bb++){
+					    puzzleInt[aa][bb] = Integer.parseInt(decoy[aa][bb]);
+					}
+				    }
+				    fill_in(puzzleInt);
+
+				}
+				if(puzzle_possible()){
+				    for(int aa = 0; aa < 9; aa++){
+					for(int bb = 0; bb < 9; bb++){
+					    puzzle[aa][bb] = decoy[aa][bb];
+					}
+				    }
+				    puzzle[i][j] = entries[i][j][1] + "";
+				    for(int aa = 0; aa < 9; aa++){
+					for(int bb = 0; bb < 0; bb++){
+					    puzzleInt[aa][bb] = Integer.parseInt(puzzle[aa][bb]);
+					}
+				    }
+				    fill_in(puzzleInt);
+
+				    if(complete(puzzle)){
+					return;
+				    }
+				    if(!complete(puzzle)){
+					if(!puzzle_possible()){
+					    decoy[i][j] = entries[i][j][0] + "";
+					    update = 0;
+					    for(int aa = 0; aa < 9; aa++){
+						for(int bb = 0; bb < 9; bb++){
+						    puzzle[aa][bb] = decoy[aa][bb];
+						}
+					    }
+					    for(int aa = 0; aa < 9; aa++){
+						for(int bb = 0; bb < 9; bb++){
+						    puzzleInt[aa][bb] =
+							Integer.parseInt(puzzle[aa][bb]);
+						}
+					    }
+					    fill_in(puzzleInt);
+					}
+					if(puzzle_possible()){
+					    for(int aa = 0; aa < 9; aa++){
+						for(int bb = 0; bb < 9; bb++){
+						    puzzle[aa][bb] = decoy[aa][bb];
+						}
+					    }
+					}
+				    }
+				}
+			    }
+			}
+			update++;
+		    }
+		}
+	    }
+	    //}
+
+    }
+
+
 
 
     public static void main(String args[]) {
@@ -680,6 +851,23 @@ public class Sudoku {
 	//fill_in(test_G);
 	solve(test_G);
 
+	/*
+	choices();	
+	int positioner = 0;
+	for(int i = 0; i < 9; i++){
+	    for(int j = 0; j < 9; j++){
+		positioner = 1;
+		System.out.print("[" + entries[i][j][0]);
+		while(entries[i][j][positioner] != 0){
+		    System.out.print(" " + entries[i][j][positioner]);
+		    positioner++;
+		}
+		System.out.print("] ");
+	    }
+	    System.out.print("\n");
+	}
+	*/
+
 	int[][] test_H = {
 	    { 8, 0, 0, 2, 7, 3, 0, 0, 0},
 	    { 3, 9, 0, 0, 0, 6, 0, 0, 0},
@@ -696,6 +884,7 @@ public class Sudoku {
 
 	// ENTER YOUR SUDOKU HERE
 
+	
 	for(int i = 0; i < 9; i++){
 	    for(int j = 0; j < 9; j++){
 		System.out.print(puzzle[i][j] + " ");
@@ -708,8 +897,8 @@ public class Sudoku {
 		System.out.print("\n");
 	    }
 	}
+	
 
-	//System.out.println(complete(puzzle));
     }
 
 }
