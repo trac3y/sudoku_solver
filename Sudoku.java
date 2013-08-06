@@ -6,6 +6,7 @@ public class Sudoku {
     public static String[][] puzzle = new String[9][9];
     public static int[][][] entries = new int[9][9][9];
 
+    /*
     public static String[] twos = new String[2];
     public static String[] threes = new String[6];
     public static String[] fours = new String[24];
@@ -61,6 +62,7 @@ public class Sudoku {
 	    }
 	}
     }
+    
 
     // Counts occurrences of 1,2,3,...9 in a string and stores in digitCount
     public static void count(String s){
@@ -101,6 +103,7 @@ public class Sudoku {
 	    }
 	}
     }
+    */
 
     public static boolean in_row(int a, String[] check){
 	// Checks if a number appears already in a row
@@ -759,6 +762,19 @@ public class Sudoku {
 	};
 	// "evil"
 	//solve(test_N);
+
+	int[][] test_O = {
+	    { 0, 0, 0, 0, 6, 0, 3, 0, 0},
+	    { 8, 0, 0, 0, 5, 0, 2, 0, 0},
+	    { 0, 0, 6, 0, 0, 1, 0, 8, 4},
+	    { 2, 0, 0, 0, 0, 8, 6, 0, 9},
+	    { 0, 0, 0, 0, 0, 0, 0, 0, 0},
+	    { 6, 0, 4, 3, 0, 0, 0, 0, 8},
+	    { 4, 6, 0, 7, 0, 0, 9, 0, 0},
+	    { 0, 0, 1, 0, 4, 0, 0, 0, 5},
+	    { 0, 0, 7, 0, 3, 0, 0, 0, 0}
+	};
+	solve(test_O);
 
 	// ENTER YOUR SUDOKU HERE
 
