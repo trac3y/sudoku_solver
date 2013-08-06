@@ -368,191 +368,6 @@ public class Sudoku {
 	return ans;
     } // Finds out if the entire puzzle is possible
 
-    /*
-    public static void solve(int[][] givens){
-	int[] potentials = new int[9];
-	int pass_one = 0; // If there are two values alone that could be in the spot
-	int pass_two = 0;
-	int permit = 0; // Number of valid numbers in a single box based on fill_in checks
-
-	int counter = 0;
-
-	String[][] decoy = new String[9][9]; // A test array that mimics puzzle[][]
-	int[][] puzzleInt = new int[9][9];
-	boolean valid_puzzle = true;
-	boolean good_sir = true;
-
-	while(counter < 81 || complete(puzzle)){
-
-	for(int i = 0; i < 9; i++){
-	    potentials[i] = 0;
-	}
-
-	fill_in(givens);
-
-	for(int i = 0; i < 9; i++){
-	    for(int j = 0; j < 9; j++){
-		decoy[i][j] = puzzle[i][j]; // Copies puzzle[][] to decoy[][]
-	    }
-	}
-
-	if(!complete(puzzle)){ // if the puzzle still isn't finished
-	    for(int i = 0; i < 9; i++){
-		for(int j = 0; j < 9; j++){
-		    permit = 0;
-		    if(puzzle[i][j].equals("0")){
-			for(int k = 1; k <= 9; k++){
-
-			    for(int m = 0; m < 9; m++){
-				potentials[m] = 0;
-			    }
-			    permit = 0;
-			    pass_one = 0;
-			    pass_two = 0;
-
-			    if(!in_row(k, puzzle[i]) &&
-			       !in_col(k, puzzle[0][j], puzzle[1][j], puzzle[2][j],
-				       puzzle[3][j], puzzle[4][j], puzzle[5][j],
-				       puzzle[6][j], puzzle[7][j], puzzle[8][j]) &&
-			       !in_box(k, i, j, puzzle)){
-				potentials[k-1] = 1;
-			    }
-			}
-			for(int m = 0; m < 9; m++){
-			    if(potentials[m] == 1){
-				permit++;
-				if(pass_one == 0){
-				    pass_one = m+1;
-				}
-				else{
-				    pass_two = m+1;
-				}
-			    }
-			} // Identifies number of possibilities for a single square.
-			// If there are only two possibilities, they will be labeled
-			// as pass_one and pass_two.
-
-			if(permit == 2){ // If there are only two possiblities
-			    puzzle[i][j] = "" + pass_one;
-			    for(int n = 0; n < 9; n++){
-				for(int p = 0; p < 9; p++){
-				    puzzleInt[n][p] = Integer.parseInt(puzzle[n][p]);
-				}
-			    }
-			    // Then copy decoy[][] into puzzleInt as int entries
-
-			    fill_in(puzzleInt);
-			    // See if previous methods work to solve this other puzzle.
-
-			    if(complete(puzzle)){
-				return;
-			    }
-			    // If decoy is now complete then the puzzle is solved
-
-			    if(!complete(puzzle)){
-				valid_puzzle = true;
-				E: for(int rowrow = 0; rowrow < 9; rowrow++){
-				    for(int colcol = 0; colcol < 9; colcol++){
-					if(!possible(rowrow, colcol)){
-					    // pass_one leads to a contradiction
-					    valid_puzzle = false;
-					    decoy[i][j] = "" + pass_two;
-					    counter = 0;
-					    // the entry must be pass_two
-					    for(int aa = 0; aa < 9; aa++){
-						for(int bb = 0; bb < 9; bb++){
-						    puzzle[aa][bb] = decoy[aa][bb];
-						}
-					    }
-					    // Set puzzle[][] so that it correctly
-					    // contains pass_two
-					    break E;
-					}
-				    }
-				}
-
-				// Otherwise, the puzzle is not solved and no evidence of
-				// pass_one being correct or incorrect is found
-				// so puzzle[][] is reset to decoy[][] but tries the
-				// same process with pass_two placed in position
-				if(valid_puzzle){
-				    for(int aa = 0; aa < 9; aa++){
-					for(int bb = 0; bb < 9; bb++){
-					    puzzle[aa][bb] = decoy[aa][bb];
-					}
-				    }
-				
-
-				    puzzle[i][j] = "" + pass_two;
-				    // For testing with pass_two in position
-
-				    for(int aa = 0; aa < 9; aa++){
-					for(int bb = 0; bb < 9; bb++){
-					    puzzleInt[i][j] = Integer.parseInt(puzzle[i][j]);
-					}
-				    }
-				    // Reset puzzleInt[][]
-
-				    fill_in(puzzleInt);
-				    // Test previous methods for puzzle with pass_two
-				    // in position.
-
-				    if(complete(puzzle)){
-					return;
-				    }
-
-				    if(!complete(puzzle)){
-					// For if puzzle was not completed when
-					// pass_two was tried
-					good_sir = true;
-					F: for(int rowrow = 0; rowrow < 9; rowrow++){
-					    for(int colcol = 0; colcol < 9; colcol++){
-						if(!possible(rowrow, colcol)){
-						    // pass_two leads to a contradiction
-						    // thus the correct entry MUST be
-						    // pass_one
-						    good_sir = false;
-						    decoy[i][j] = "" + pass_one;
-						    counter = 0;
-						    for(int aa = 0; aa < 9; aa++){
-							for(int bb = 0; bb < 9; bb++){
-							    puzzle[aa][bb] = decoy[aa][bb];
-							}
-						    }
-						    // Set puzzle so that it correctly
-						    // contains pass_one
-						    for(int aa = 0; aa < 9; aa++){
-							for(int bb = 0; bb < 9; bb++){
-							    puzzleInt[aa][bb] =
-								Integer.parseInt(decoy[aa][bb]);
-							}
-						    }
-						    break F;
-						}
-					    }
-					}
-
-					if(good_sir){
-					    for(int aa = 0; aa < 9; aa++){
-						for(int bb = 0; bb < 9; bb++){
-						    puzzle[aa][bb] = decoy[aa][bb];
-						    puzzleInt[aa][bb] =
-							Integer.parseInt(decoy[aa][bb]);
-						}
-					    }
-					}
-				    }
-				}
-			    }
-			}
-		    }
-		}
-	    }
-	    counter++;
-	}
-	}
-    }
-    */
 
     public static void choices(){
 	int marker = 0;
@@ -595,12 +410,10 @@ public class Sudoku {
 	boolean valid_puzzle = true;
 	boolean good_sir = true;
 
-	while(update < 81 || !complete(puzzle)){
-	/*
-	    for(int i = 0; i < 9; i++){
-		potentials[i] = 0;
-	    }
-	*/
+	fill_in(givens);
+
+	while(update < 81 && !complete(puzzle)){
+
 	    fill_in(givens);
 
 	    for(int i = 0; i < 9; i++){
@@ -707,8 +520,6 @@ public class Sudoku {
 	}
 
     }
-
-
 
 
     public static void main(String args[]) {
@@ -851,23 +662,6 @@ public class Sudoku {
 	//fill_in(test_G);
 	//solve(test_G);
 
-	/*
-	choices();	
-	int positioner = 0;
-	for(int i = 0; i < 9; i++){
-	    for(int j = 0; j < 9; j++){
-		positioner = 1;
-		System.out.print("[" + entries[i][j][0]);
-		while(entries[i][j][positioner] != 0){
-		    System.out.print(" " + entries[i][j][positioner]);
-		    positioner++;
-		}
-		System.out.print("] ");
-	    }
-	    System.out.print("\n");
-	}
-	*/
-
 	int[][] test_H = {
 	    { 8, 0, 0, 2, 7, 3, 0, 0, 0},
 	    { 3, 9, 0, 0, 0, 6, 0, 0, 0},
@@ -880,7 +674,91 @@ public class Sudoku {
 	    { 0, 0, 0, 1, 3, 9, 0, 0, 8}
 	};
 	// "super-hard"
-	solve(test_H);
+	//solve(test_H);
+
+	int[][] test_I = {
+	    { 0, 0, 0, 9, 2, 0, 0, 0, 0},
+	    { 0, 0, 6, 8, 0, 3, 0, 0, 0},
+	    { 1, 9, 0, 0, 7, 0, 0, 0, 6},
+	    { 2, 3, 0, 0, 4, 0, 1, 0, 0},
+	    { 0, 0, 1, 0, 0, 0, 7, 0, 0},
+	    { 0, 0, 8, 0, 3, 0, 0, 2, 9},
+	    { 7, 0, 0, 0, 8, 0, 0, 9, 1},
+	    { 0, 0, 0, 5, 0, 7, 2, 0, 0},
+	    { 0, 0, 0, 0, 6, 4, 0, 0, 0}
+	};
+	// "diabolical"
+	//solve(test_I);
+
+	int[][] test_J = {
+	    { 0, 9, 4, 5, 0, 7, 1, 2, 0},
+	    { 0, 0, 5, 0, 0, 1, 7, 0, 4},
+	    { 1, 0, 0, 0, 8, 0, 5, 0, 9},
+	    { 0, 5, 0, 1, 0, 0, 0, 7, 0},
+	    { 0, 0, 3, 0, 0, 0, 2, 0, 0},
+	    { 0, 2, 0, 0, 0, 6, 0, 1, 0},
+	    { 5, 0, 9, 0, 2, 0, 0, 0, 1},
+	    { 7, 0, 1, 6, 0, 0, 3, 0, 0},
+	    { 0, 3, 6, 8, 0, 5, 9, 4, 0}
+	};
+	// "easy"
+	//solve(test_J);
+
+	int[][] test_K = {
+	    { 0, 0, 5, 9, 0, 3, 0, 1, 0},
+	    { 0, 0, 7, 0, 1, 0, 8, 0, 0},
+	    { 0, 3, 0, 6, 0, 8, 0, 0, 0},
+	    { 0, 1, 3, 0, 0, 2, 0, 0, 0},
+	    { 2, 0, 0, 0, 6, 0, 0, 0, 9},
+	    { 0, 0, 0, 8, 0, 0, 7, 3, 0},
+	    { 0, 0, 0, 1, 0, 6, 0, 7, 0},
+	    { 0, 0, 4, 0, 8, 0, 9, 0, 0},
+	    { 0, 6, 0, 7, 0, 9, 5, 0, 0}
+	};
+	// "medium"
+	//solve(test_K);
+
+	int[][] test_L = {
+	    { 0, 7, 9, 0, 0, 6, 8, 0, 0},
+	    { 2, 0, 6, 3, 5, 1, 0, 0, 0},
+	    { 1, 0, 0, 9, 7, 0, 5, 0, 0},
+	    { 0, 6, 0, 0, 9, 0, 7, 5, 0},
+	    { 0, 0, 0, 0, 1, 0, 0, 0, 0},
+	    { 0, 9, 2, 0, 4, 0, 0, 8, 0},
+	    { 0, 0, 3, 0, 8, 2, 0, 0, 6},
+	    { 0, 0, 0, 1, 6, 4, 3, 0, 5},
+	    { 0, 0, 7, 5, 0, 0, 2, 4, 0}
+	};
+	// "easy"
+	//solve(test_L);
+
+	int[][] test_M = {
+	    { 9, 0, 8, 0, 0, 0, 6, 3, 0},
+	    { 0, 0, 0, 0, 0, 0, 8, 0, 7},
+	    { 5, 0, 0, 8, 0, 0, 0, 0, 4},
+	    { 0, 0, 1, 0, 4, 8, 0, 0, 0},
+	    { 2, 0, 0, 6, 0, 5, 0, 0, 8},
+	    { 0, 0, 0, 7, 2, 0, 4, 0, 0},
+	    { 1, 0, 0, 0, 0, 6, 0, 0, 2},
+	    { 8, 0, 5, 0, 0, 0, 0, 0, 0},
+	    { 0, 7, 4, 0, 0, 0, 9, 0, 1}
+	};
+	// "hard"
+	//solve(test_M);
+
+	int[][] test_N = {
+	    { 0, 9, 7, 6, 0, 0, 0, 0, 0},
+	    { 2, 8, 0, 0, 0, 0, 0, 5, 4},
+	    { 0, 0, 0, 0, 0, 0, 0, 2, 0},
+	    { 0, 0, 0, 0, 8, 4, 0, 6, 0},
+	    { 0, 6, 0, 0, 7, 0, 0, 3, 0},
+	    { 0, 2, 0, 9, 1, 0, 0, 0, 0},
+	    { 0, 3, 0, 0, 0, 0, 0, 0, 0},
+	    { 1, 7, 0, 0, 0, 0, 0, 8, 5},
+	    { 0, 0, 0, 0, 0, 9, 6, 7, 0}
+	};
+	// "evil"
+	//solve(test_N);
 
 	// ENTER YOUR SUDOKU HERE
 
