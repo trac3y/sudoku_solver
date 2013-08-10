@@ -7,102 +7,102 @@ public class Sudoku {
     public static int[][][] entries = new int[9][9][9];
 
     /*
-    public static String[] twos = new String[2];
-    public static String[] threes = new String[6];
-    public static String[] fours = new String[24];
-    public static String[] fives = new String[120];
-    public static String[] sixes = new String[720];
-    public static String[] sevens = new String[5040];
-    public static String[] eights = new String[40320];
-    public static String[] nines = new String[362880];
+      public static String[] twos = new String[2];
+      public static String[] threes = new String[6];
+      public static String[] fours = new String[24];
+      public static String[] fives = new String[120];
+      public static String[] sixes = new String[720];
+      public static String[] sevens = new String[5040];
+      public static String[] eights = new String[40320];
+      public static String[] nines = new String[362880];
 
-    public static void set_nines(){
-	twos[0] = "21";
-	twos[1] = "12";
-	for(int i = 0; i < 2; i++){
-	    for(int j = 0; j < 3; j++){
-		threes[3 * i + j] = twos[i].substring(0,j) + "3"
-		    + twos[i].substring(j);
-	    }
-	}
-	for(int i = 0; i < 6; i++){
-	    for(int j = 0; j < 4; j++){
-		fours[4 * i + j] = threes[i].substring(0,j) + "4"
-		    + threes[i].substring(j);
-	    }
-	}
-	for(int i = 0; i < 24; i++){
-	    for(int j = 0; j < 5; j++){
-		fives[5 * i + j] = fours[i].substring(0,j) + "5"
-		    + fours[i].substring(j);
-	    }
-	}
-	for(int i = 0; i < 120; i++){
-	    for(int j = 0; j < 6; j++){
-		sixes[6 * i + j] = fives[i].substring(0,j) + "6"
-		    + fives[i].substring(j);
-	    }
-	}
-	for(int i = 0; i < 720; i++){
-	    for(int j = 0; j < 7; j++){
-		sevens[7 * i + j] = sixes[i].substring(0,j) + "7"
-		    + sixes[i].substring(j);
-	    }
-	}
-	for(int i = 0; i < 5040; i++){
-	    for(int j = 0; j < 8; j++){
-		eights[8 * i + j] = sevens[i].substring(0,j) + "8"
-		    + sevens[i].substring(j);
-	    }
-	}
-	for(int i = 0; i < 40320; i++){
-	    for(int j = 0; j < 9; j++){
-		nines[9 * i + j] = eights[i].substring(0,j) + "9"
-		    + eights[i].substring(j);
-	    }
-	}
-    }
+      public static void set_nines(){
+      twos[0] = "21";
+      twos[1] = "12";
+      for(int i = 0; i < 2; i++){
+      for(int j = 0; j < 3; j++){
+      threes[3 * i + j] = twos[i].substring(0,j) + "3"
+      + twos[i].substring(j);
+      }
+      }
+      for(int i = 0; i < 6; i++){
+      for(int j = 0; j < 4; j++){
+      fours[4 * i + j] = threes[i].substring(0,j) + "4"
+      + threes[i].substring(j);
+      }
+      }
+      for(int i = 0; i < 24; i++){
+      for(int j = 0; j < 5; j++){
+      fives[5 * i + j] = fours[i].substring(0,j) + "5"
+      + fours[i].substring(j);
+      }
+      }
+      for(int i = 0; i < 120; i++){
+      for(int j = 0; j < 6; j++){
+      sixes[6 * i + j] = fives[i].substring(0,j) + "6"
+      + fives[i].substring(j);
+      }
+      }
+      for(int i = 0; i < 720; i++){
+      for(int j = 0; j < 7; j++){
+      sevens[7 * i + j] = sixes[i].substring(0,j) + "7"
+      + sixes[i].substring(j);
+      }
+      }
+      for(int i = 0; i < 5040; i++){
+      for(int j = 0; j < 8; j++){
+      eights[8 * i + j] = sevens[i].substring(0,j) + "8"
+      + sevens[i].substring(j);
+      }
+      }
+      for(int i = 0; i < 40320; i++){
+      for(int j = 0; j < 9; j++){
+      nines[9 * i + j] = eights[i].substring(0,j) + "9"
+      + eights[i].substring(j);
+      }
+      }
+      }
     
 
-    // Counts occurrences of 1,2,3,...9 in a string and stores in digitCount
-    public static void count(String s){
-	for(int i = 0; i < 9; i++){
-	    digitCount[i] = 0;
-	}
-	if(s.length() != 9){ // Throws out string if length is not 9
-	    return;
-	}
+      // Counts occurrences of 1,2,3,...9 in a string and stores in digitCount
+      public static void count(String s){
+      for(int i = 0; i < 9; i++){
+      digitCount[i] = 0;
+      }
+      if(s.length() != 9){ // Throws out string if length is not 9
+      return;
+      }
 
-	for(int i = 0; i < 9; i++){
-	    if(s.substring(i,i+1).equals("1")){
-		digitCount[0]++;
-	    }
-	    if(s.substring(i,i+1).equals("2")){
-		digitCount[1]++;
-	    }
-	    if(s.substring(i,i+1).equals("3")){
-		digitCount[2]++;
-	    }
-	    if(s.substring(i,i+1).equals("4")){
-		digitCount[3]++;
-	    }
-	    if(s.substring(i,i+1).equals("5")){
-		digitCount[4]++;
-	    }
-	    if(s.substring(i,i+1).equals("6")){
-		digitCount[5]++;
-	    }
-	    if(s.substring(i,i+1).equals("7")){
-		digitCount[6]++;
-	    }
-	    if(s.substring(i,i+1).equals("8")){
-		digitCount[7]++;
-	    }
-	    if(s.substring(i,i+1).equals("9")){
-		digitCount[8]++;
-	    }
-	}
-    }
+      for(int i = 0; i < 9; i++){
+      if(s.substring(i,i+1).equals("1")){
+      digitCount[0]++;
+      }
+      if(s.substring(i,i+1).equals("2")){
+      digitCount[1]++;
+      }
+      if(s.substring(i,i+1).equals("3")){
+      digitCount[2]++;
+      }
+      if(s.substring(i,i+1).equals("4")){
+      digitCount[3]++;
+      }
+      if(s.substring(i,i+1).equals("5")){
+      digitCount[4]++;
+      }
+      if(s.substring(i,i+1).equals("6")){
+      digitCount[5]++;
+      }
+      if(s.substring(i,i+1).equals("7")){
+      digitCount[6]++;
+      }
+      if(s.substring(i,i+1).equals("8")){
+      digitCount[7]++;
+      }
+      if(s.substring(i,i+1).equals("9")){
+      digitCount[8]++;
+      }
+      }
+      }
     */
 
     public static boolean in_row(int a, String[] check){
@@ -778,9 +778,20 @@ public class Sudoku {
 	//solve(test_O);
 
 	// ENTER YOUR SUDOKU HERE
-
+	int[][] testCray = {
+	    { 0, 9, 0, 0, 1, 0, 0, 2, 4},
+	    { 6, 0, 0, 4, 5, 0, 0, 0, 0},
+	    { 0, 0, 5, 0, 0, 0, 0, 6, 3},
+	    { 0, 0, 0, 1, 3, 0, 6, 0, 0},
+	    { 5, 0, 9, 0, 0, 0, 2, 0, 1},
+	    { 0, 0, 3, 0, 2, 8, 0, 0, 5},
+	    { 7, 5, 0, 0, 0, 0, 9, 0, 2},
+	    { 0, 0, 6, 0, 4, 9, 0, 0, 7},
+	    { 9, 3, 0, 0, 8, 0, 0, 5, 0}
+	};
+	solve(testCray);
 	
-	for(int i = 0; i < 9; i++){
+     	for(int i = 0; i < 9; i++){
 	    for(int j = 0; j < 9; j++){
 		System.out.print(puzzle[i][j] + " ");
 		if(((j + 1) % 3) == 0){
@@ -791,8 +802,8 @@ public class Sudoku {
 	    if(((i + 1) % 3) == 0){
 		System.out.print("\n");
 	    }
-	}
 	
+	}
 
     }
 
