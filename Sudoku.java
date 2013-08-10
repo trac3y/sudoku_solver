@@ -607,7 +607,7 @@ public class Sudoku {
 	};
 	// "moderate"
 	//fill_in(test_B);
-	solve(test_B);
+	//solve(test_B);
 
 	int[][] test_C = {
 	    { 0, 0, 0, 2, 0, 0, 0, 6, 3},
