@@ -20,14 +20,16 @@ public class Sudoku {
 	return ans;
     }
 
-    public static boolean in_col(int a, String b, String c, String d, String e,
-				 String f, String g, String h, String k, String m){
+    public static boolean in_col(int a, String b, String c, String d,
+				 String e, String f, String g, String h,
+				 String k, String m){
 	// Checks if a number appears already in a column
 	// false if not in column, true if in column
 	String n = "" + a;
 	boolean ans = false;
-	if(n.equals(b) || n.equals(c) || n.equals(d) || n.equals(e) || n.equals(f) ||
-	   n.equals(g) || n.equals(h) || n.equals(k) || n.equals(m)){
+	if(n.equals(b) || n.equals(c) || n.equals(d) || n.equals(e) || 
+	   n.equals(f) || n.equals(g) || n.equals(h) || n.equals(k) ||
+	   n.equals(m)){
 	    ans = true;
 	}
 	return ans;
@@ -54,8 +56,9 @@ public class Sudoku {
 
 	if(b.equals(entries[id_X][id_Y]) || b.equals(entries[id_X+1][id_Y]) || 
 	   b.equals(entries[id_X+2][id_Y]) || b.equals(entries[id_X][id_Y+1]) ||
-	   b.equals(entries[id_X+1][id_Y+1]) || b.equals(entries[id_X+2][id_Y+1]) ||
-	   b.equals(entries[id_X][id_Y+2]) || b.equals(entries[id_X+1][id_Y+2]) ||
+	   b.equals(entries[id_X+1][id_Y+1]) ||
+	   b.equals(entries[id_X+2][id_Y+1]) || b.equals(entries[id_X][id_Y+2])
+	   || b.equals(entries[id_X+1][id_Y+2]) ||
 	   b.equals(entries[id_X+2][id_Y+2])){
 	    ans = true;
 	}
@@ -78,11 +81,12 @@ public class Sudoku {
     public static void fill_in(int[][] givens){
 	int ones_count = 0;
 	int marker = 0;
-	int algor_count = 0; // Number of times of going through rows/columns/boxes without
-	                     // finding anything to change. We know we've done as much as
-	                     // we can when algor_count == 9.
-	int search_count = 0; // Number of consecutive searches without finding anything
-	                      // to change.
+	int algor_count = 0;
+	// Number of times of going through rows/columns/boxes without
+	// finding anything to change. We know we've done as much as
+	// we can when algor_count == 9.
+	int search_count = 0;
+	// Number of consecutive searches without finding anything to change.
 	int box_row = 0;
 	int box_col = 0;
 
@@ -104,12 +108,16 @@ public class Sudoku {
 			      puzzle[3][j], puzzle[4][j], puzzle[5][j],
 			      puzzle[6][j], puzzle[7][j], puzzle[8][j])){
 			for(int k = 1; k <= 9; k++){
-			    if(!in_col(k, puzzle[0][j], puzzle[1][j], puzzle[2][j],
-				       puzzle[3][j], puzzle[4][j], puzzle[5][j],
-				       puzzle[6][j], puzzle[7][j], puzzle[8][j])){
-				// identifies numbers not already marked in column
+			    if(!in_col(k, puzzle[0][j], puzzle[1][j],
+				       puzzle[2][j],puzzle[3][j],
+				       puzzle[4][j], puzzle[5][j],
+				       puzzle[6][j], puzzle[7][j],
+				       puzzle[8][j])){
+				// identifies numbers not already marked
+				// in column
 				for(int i = 0; i < 9; i++){
-				    if(puzzle[i][j].equals("0") && !in_row(k, puzzle[i]) && 
+				    if(puzzle[i][j].equals("0") &&
+				       !in_row(k, puzzle[i]) &&
 				       !in_box(k, i, j, puzzle)){
 					digitCount[i]++;
 				    }
@@ -147,9 +155,11 @@ public class Sudoku {
 				// identifies numbers not already marked in row
 				for(int i = 0; i < 9; i++){
 				    if(puzzle[j][i].equals("0") && 
-				       !in_col(k, puzzle[0][i], puzzle[1][i], puzzle[2][i],
-					       puzzle[3][i], puzzle[4][i], puzzle[5][i],
-					       puzzle[6][i], puzzle[7][i], puzzle[8][i]) &&
+				       !in_col(k, puzzle[0][i],
+					       puzzle[1][i], puzzle[2][i],
+					       puzzle[3][i], puzzle[4][i],
+					       puzzle[5][i], puzzle[6][i],
+					       puzzle[7][i], puzzle[8][i]) && 
 				       !in_box( k, j, i, puzzle)){
 					digitCount[i]++;
 				    }
@@ -184,15 +194,20 @@ public class Sudoku {
 			if(in_box(0, 3*j, 3*n, puzzle)){
 			    for(int k = 1; k <= 9; k++){
 				if(!in_box(k, 3*j, 3*n, puzzle)){
-				    // identifies numbers not already marked in box
+				    // identifies numbers not
+				    // already marked in box
 				    for(int r = 0; r < 3; r++){
 					for(int s = 0; s < 3; s++){
 					    if(puzzle[3*j + r][3*n + s].equals("0") &&
 					       !in_row(k, puzzle[3*j + r]) &&
-					       !in_col(k, puzzle[0][3*n+s], puzzle[1][3*n+s],
-						       puzzle[2][3*n+s], puzzle[3][3*n+s],
-						       puzzle[4][3*n+s], puzzle[5][3*n+s],
-						       puzzle[6][3*n+s], puzzle[7][3*n+s],
+					       !in_col(k, puzzle[0][3*n+s],
+						       puzzle[1][3*n+s],
+						       puzzle[2][3*n+s],
+						       puzzle[3][3*n+s],
+						       puzzle[4][3*n+s],
+						       puzzle[5][3*n+s],
+						       puzzle[6][3*n+s],
+						       puzzle[7][3*n+s],
 						       puzzle[8][3*n+s])){
 						digitCount[3 * r + s]++;
 					    }
@@ -207,7 +222,8 @@ public class Sudoku {
 				    if(ones_count == 1){
 					box_row = marker / 3;
 					box_col = marker % 3;
-					puzzle[3*j + box_row][3*n + box_col] = "" + k;
+					puzzle[3*j + box_row][3*n + box_col] =
+					    "" + k;
 					algor_count = 0;
 					search_count = 0;
 					box_row = 0;
@@ -239,8 +255,10 @@ public class Sudoku {
 	if(puzzle[row][col].equals("0")){
 	    for(int k = 1; k <= 9; k++){
 		if(!in_row(k, puzzle[row]) &&
-		   !in_col(k, puzzle[0][col], puzzle[1][col], puzzle[2][col], puzzle[3][col],
-			   puzzle[4][col], puzzle[5][col], puzzle[6][col], puzzle[7][col],
+		   !in_col(k, puzzle[0][col], puzzle[1][col],
+			   puzzle[2][col], puzzle[3][col],
+			   puzzle[4][col], puzzle[5][col],
+			   puzzle[6][col], puzzle[7][col],
 			   puzzle[8][col]) &&
 		   !in_box(k, row, col, puzzle)){
 		    counters[k-1] = 1;
@@ -302,14 +320,17 @@ public class Sudoku {
 
     public static void solve(int[][] givens){
 	int[] potentials = new int[9];
-	int pass_one = 0; // If there are two values alone that could be in the spot
+	int pass_one = 0;
+	// If there are two values alone that could be in the spot
 	int pass_two = 0;
-	int permit = 0; // Number of valid numbers in a single box based on fill_in checks
+	int permit = 0;
+	// Number of valid numbers in a single box based on fill_in checks
 
 	int counter = 0;
 	int update = 0;
 
-	String[][] decoy = new String[9][9]; // A test array that mimics puzzle[][]
+	String[][] decoy = new String[9][9];
+	// A test array that mimics puzzle[][]
 	int[][] puzzleInt = new int[9][9];
 	boolean valid_puzzle = true;
 	boolean good_sir = true;
@@ -322,11 +343,13 @@ public class Sudoku {
 
 	    for(int i = 0; i < 9; i++){
 		for(int j = 0; j < 9; j++){
-		    decoy[i][j] = puzzle[i][j]; // Copies puzzle[][] to decoy[][]
+		    decoy[i][j] = puzzle[i][j];
+		    // Copies puzzle[][] to decoy[][]
 		}
 	    }
 
-	    if(!complete(puzzle)){ // if the puzzle still isn't finished
+	    if(!complete(puzzle)){
+		// if the puzzle still isn't finished
 		//choices();
 		// Might be more efficient to place choices() HERE HERE HERE
 		for(int i = 0; i < 9; i++){
@@ -347,7 +370,8 @@ public class Sudoku {
 			    puzzle[i][j] = entries[i][j][0] + "";
 			    for(int aa = 0; aa < 9; aa++){
 				for(int bb = 0; bb < 9; bb++){
-				    puzzleInt[aa][bb] = Integer.parseInt(puzzle[aa][bb]);
+				    puzzleInt[aa][bb] =
+					Integer.parseInt(puzzle[aa][bb]);
 				}
 			    }
 			    fill_in(puzzleInt);
@@ -366,7 +390,8 @@ public class Sudoku {
 				    }
 				    for(int aa = 0; aa < 9; aa++){
 					for(int bb = 0; bb < 9; bb++){
-					    puzzleInt[aa][bb] = Integer.parseInt(decoy[aa][bb]);
+					    puzzleInt[aa][bb] =
+						Integer.parseInt(decoy[aa][bb]);
 					}
 				    }
 				    fill_in(puzzleInt);
@@ -381,7 +406,8 @@ public class Sudoku {
 				    puzzle[i][j] = entries[i][j][1] + "";
 				    for(int aa = 0; aa < 9; aa++){
 					for(int bb = 0; bb < 0; bb++){
-					    puzzleInt[aa][bb] = Integer.parseInt(puzzle[aa][bb]);
+					    puzzleInt[aa][bb] =
+						Integer.parseInt(puzzle[aa][bb]);
 					}
 				    }
 				    fill_in(puzzleInt);
@@ -395,7 +421,8 @@ public class Sudoku {
 					    update = 0;
 					    for(int aa = 0; aa < 9; aa++){
 						for(int bb = 0; bb < 9; bb++){
-						    puzzle[aa][bb] = decoy[aa][bb];
+						    puzzle[aa][bb] =
+							decoy[aa][bb];
 						}
 					    }
 					    for(int aa = 0; aa < 9; aa++){
@@ -409,7 +436,8 @@ public class Sudoku {
 					if(puzzle_possible()){
 					    for(int aa = 0; aa < 9; aa++){
 						for(int bb = 0; bb < 9; bb++){
-						    puzzle[aa][bb] = decoy[aa][bb];
+						    puzzle[aa][bb] =
+							decoy[aa][bb];
 						}
 					    }
 					}

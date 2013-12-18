@@ -1,14 +1,22 @@
+//package components;
+
 import javax.swing.*;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.*;
 
 import java.text.*;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 
+//import java.awt.TextArea;
+
+
 public class Button extends Sudoku implements ActionListener{
+    protected JTextField textField;
+    protected static JTextArea textArea;
 
     // Definition of global values and items that are part of the GUI.
     int[][] given_values = new int[9][9];
@@ -31,7 +39,7 @@ public class Button extends Sudoku implements ActionListener{
         // Creation of a Panel to contain the title labels
         titlePanel = new JPanel();
         titlePanel.setLayout(null);
-        titlePanel.setLocation(10, 0);
+        titlePanel.setLocation(70, 0);
 	//titlePanel.setLocation(0,0);
         titlePanel.setSize(250, 30);
         totalGUI.add(titlePanel);
@@ -152,10 +160,17 @@ public class Button extends Sudoku implements ActionListener{
     public static void main(String[] args) {
         //Schedule a job for the event-dispatching thread:
         //creating and showing this application's GUI.
+
+	textArea = new JTextArea(5, 20);
+	JScrollPane scrollPane = new JScrollPane(textArea);
+	textArea.setEditable(false);
+
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 createAndShowGUI();
             }
         });
+
+
     }
 }
